@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Administrator Page</h1>
+
+    <form id="postForm">
+        <input type="text" id="TitleInput" placeholder="Enter Product Name" required>
+        <textarea id="ContentInput" placeholder="Enter Product Description" required></textarea>
+        <input type="number" id="PriceInput" placeholder="Enter Product Price" required>
+        <input type="text" id="ImageInput" placeholder="Enter Image URL" required>
+        <div id="imagePreview"></div>
+
+        <button type="submit">Add Product</button>
+    </form>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html> 
