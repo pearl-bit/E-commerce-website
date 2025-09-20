@@ -1,26 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    .form-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      width: 350px;
+      text-align: center;
+    }
+
+    .form-box h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #007BFF;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007BFF;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #errorMsg {
+      margin-top: 10px;
+      color: red;
+      font-size: 14px;
+    }
+
+    .link-text {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .link-text a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .link-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="form-box">
-        <h2>Login</h2>
-        <input type="email" id="loginEmail" placeholder="Email" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <button id="signInBtn">Sign In</button>
-        <p id="errorMsg"></p>
+  <div class="form-box">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
+    <button id="signInBtn">Sign In</button>
+    <p id="errorMsg"></p>
 
-        <div class="link-text">
-            <p>
-                Don't have an account? <a href="signup.html">Sign Up</a>
-            </p>
-        </div>
+    <div class="link-text">
+      <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
     </div>
-    <script type="module" src="app.js"></script>
+  </div>
+
+  <!-- Important: mark this script as type="module" -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIxgQMkNLr-sWSu0Devm29GxfOdY1qKj0",
+      authDomain: "e-commerce-web-df5b5.firebaseapp.com",
+      databaseURL: "https://e-commerce-web-df5b5-default-rtdb.firebaseio.com",
+      projectId: "e-commerce-web-df5b5",
+      storageBucket: "e-commerce-web-df5b5.firebasestorage.app",
+      messagingSenderId: "671685766085",
+      appId: "1:671685766085:web:139187b56a0557073539ac",
+      measurementId: "G-DMKC378G2B"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const signInBtn = document.getElementById("signInBtn");
+    const errorMsg = document.getElementById("errorMsg");
+
+    signInBtn.addEventListener("click", () => {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      if (email === "" || password === "") {
+        errorMsg.style.color = "red";
+        errorMsg.textContent = "Please enter both email and password.";
+        return;
+      }
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          errorMsg.style.color = "green";
+          errorMsg.textContent = "Login successful! Redirecting...";
+          setTimeout(() => {
+            window.location.href = " http://localhost:26543/storage/emulated/0/Documents/html/my+website/E-commerce/admin.html"; 
+          }, 1500);
+        })
+        .catch((error) => {
+          errorMsg.style.color = "red";
+          errorMsg.textContent = error.message;
+        });
+    });
+  </script>
+
 </body>
 </html>
